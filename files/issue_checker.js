@@ -38,7 +38,7 @@ window.onload = function () {
   addButton.addEventListener("click", function (e) {
     e.preventDefault();
 
-    if (settings.issue_view_state == 10) {
+    if (settings.issue_view_state == 10 && checkBoxViewStatus.checked == true ) {
       const result = confirm("Issue je verejný chcete pridat súkromou poznámku  ?");
       if (result) {
         bugForm.submit();
