@@ -37,14 +37,16 @@ window.onload = function () {
 
   addButton.addEventListener("click", function (e) {
     e.preventDefault();
-    checkBoxViewStatus.checked = true;
-    butnoteTextArea.classList.add("bugnote-private");
-    const result = confirm("Issue je súkromný chcete pridat poznámku  ?");
 
-    if (result) {
-      bugForm.submit();
+    if (settings.issue_view_state == 10) {
+      const result = confirm("Issue je verejný chcete pridat súkromou poznámku  ?");
+      if (result) {
+        bugForm.submit();
+      } else {
+        return false;
+      }
     } else {
-      return false;
+      bugForm.submit();
     }
   });
 
