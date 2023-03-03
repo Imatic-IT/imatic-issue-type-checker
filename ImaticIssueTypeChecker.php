@@ -5,7 +5,7 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
     public function register(): void
     {
         $this->name = 'Imatic issue checker';
-        $this->description = 'Warning when private issue has public note';
+        $this->description = 'Warning when private issue has public note && added button send public note';
         $this->version = '0.0.1';
         $this->requires = [
             'MantisCore' => '2.0.0',
@@ -57,13 +57,11 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
     public function  imaticShowViewStateIssueMessage($issue)
     {
 
-        if ($issue['view_state'] == 50) {
-            echo '<p style="margin: 5px;padding: 5px;" id="private_issue" class=" bg-danger">Súkromný issue</p>';
-        }
+        $view_state_issue =  $issue['view_state'] == 50 ? lang_get( 'private' ) : lang_get( 'public' );
+        $class = $issue['view_state'] == 50 ? 'bg-warning' : 'bg-success';
 
-        if ($issue['view_state'] == 10) {
-            echo '<p style="margin: 5px;padding: 5px;" id="public_issue" class=" bg-success">Verejný issue</p>';
-        }
+        echo '<p style="margin: 5px;padding: 5px;" class=" '.$class.'">'.$view_state_issue.' issue</p>';
+
     }
 
 
@@ -82,13 +80,5 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
             echo '<script id="imaticIssueType" data-data="' . $t_data . '" src="' . plugin_file('issue_checker.js') . '&v=' . $this->version . '"></script>
             <link rel="stylesheet" type="text/css" href="' . plugin_file('style.css') . '&v=' . $this->version . '" />';
         }
-    }
-
-    public  function pre($data)
-    {
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
-        die;
     }
 }
