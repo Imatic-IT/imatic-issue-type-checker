@@ -22,7 +22,6 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
             'show_issue_status' => true,
             'allow_set_public_issue' => [
                 'allow' => true,
-                'change_status_access' => $this->ImaticChangeStatusAccess(),
             ],
             'warning_public_issue_private_bugnote' => [
                 'allow' => true,
@@ -99,10 +98,13 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
             $issue_id = $_GET['id'];
             $issue = bug_get_row($issue_id);
 
+            $allow_set_public_issue = plugin_config_get('allow_set_public_issue');
+            $allow_set_public_issue['change_status_access'] = $this->ImaticChangeStatusAccess();
+
             $t_data = htmlspecialchars(json_encode([
                 'issue_view_state' => $issue['view_state'],
                 'set_issue_public_url' => plugin_page('set_issue_public') . '&issue_id=' . $issue_id,
-                'allow_set_public_issue' => plugin_config_get('allow_set_public_issue'),
+                'allow_set_public_issue' => $allow_set_public_issue,
                 'warning_public_issue_private_bugnote' => plugin_config_get('warning_public_issue_private_bugnote'),
                 'warning_private_issue_public_bugnote' => plugin_config_get('warning_private_issue_public_bugnote')
 
