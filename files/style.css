@@ -1,6 +1,5 @@
 #add_public_bugnote{
-	margin-left: 4px;
-	float: right;
+	margin-left: 10px;
 }
 
 /* Center the loader */
@@ -51,4 +50,11 @@
   #myDiv {
 	display: none;
 	text-align: center;
+  }
+
+
+  /* Modal confirm  */
+  #bugnote_modal_confirm_message{
+	font-weight: bold;
+	font-size: 1.3em;
   }

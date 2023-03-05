@@ -20,7 +20,18 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
     {
         return [
             'show_issue_status' => true,
-            'allow_set_public_issue' => true,
+            'allow_set_public_issue' => [
+                'allow' => true,
+                'change_status_access' => $this->ImaticChangeStatusAccess(),
+            ],
+            'warning_public_issue_private_bugnote' => [
+                'allow' => true,
+                'message' => 'Issue je verejný chcete pridat súkromou poznámku ?'
+            ],
+            'warning_private_issue_public_bugnote' => [
+                'allow' => true,
+                'message' => 'Issue je soukromé chcete pridat verejnou poznámku ? Poznámkú nikto neuvidí'
+            ]
         ];
     }
 
@@ -35,7 +46,6 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
 
     public function event_bugnote_add_form($p_event)
     {
-
         if (isset($_GET['id'])) {
             $issue_id = $_GET['id'];
             $issue = bug_get_row($issue_id);
@@ -43,9 +53,9 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
             // Just UI loader
             echo '<div style="display:none;" id="loader"></div>';
 
-            echo '<a style="display:none;" id="issue_set_public_link" href="' . plugin_page('set_issue_public') . '&issue_id=' . $issue_id . '"> aaa</a>';
-            echo '<button class="btn btn-primary btn-white btn-round"  id="add_public_bugnote" type="submit">Pridať verejnú poznámku</button>';
+            include 'inc/confirm_modal.php';
 
+            echo '<button class="btn btn-primary btn-white btn-round"  id="add_public_bugnote" type="submit">Pridať verejnú poznámku</button>';
 
             if (plugin_config_get('show_issue_status')) {
                 $this->imaticShowViewStateIssueMessage($issue);
@@ -57,11 +67,29 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
     public function  imaticShowViewStateIssueMessage($issue)
     {
 
-        $view_state_issue =  $issue['view_state'] == 50 ? lang_get( 'private' ) : lang_get( 'public' );
+        $view_state_issue =  ucfirst($issue['view_state'] == 50 ? lang_get('private') : lang_get('public'));
         $class = $issue['view_state'] == 50 ? 'bg-warning' : 'bg-success';
 
-        echo '<p style="margin: 5px;padding: 5px;" class=" '.$class.'">'.$view_state_issue.' issue</p>';
+        echo '<p style="margin: 5px;padding: 5px;" class=" ' . $class . '">' . $view_state_issue . ' issue</p>';
+    }
 
+    public function ImaticChangeStatusAccess()
+    {
+
+        require_api('authentication_api.php');
+
+        if (!auth_is_user_authenticated()) {
+            return;
+        }
+
+        if (!empty($_GET['imaticProject'])) {
+            $project_id = gpc_get_int('imaticProject');
+        } else {
+            $project_id = helper_get_current_project();
+        }
+
+        $access =  user_get_access_level(auth_get_current_user_id(), $project_id) >= config_get('change_view_status_threshold') ? true : false;
+        return $access;
     }
 
 
@@ -73,8 +101,10 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
 
             $t_data = htmlspecialchars(json_encode([
                 'issue_view_state' => $issue['view_state'],
-                'set_issue_public_url' => $_SERVER['HTTP_HOST'] . plugin_page('set_issue_public'),
-                'allow_set_public_issue' => plugin_config_get('allow_set_public_issue')
+                'set_issue_public_url' => plugin_page('set_issue_public') . '&issue_id=' . $issue_id,
+                'allow_set_public_issue' => plugin_config_get('allow_set_public_issue'),
+                'warning_public_issue_private_bugnote' => plugin_config_get('warning_public_issue_private_bugnote'),
+                'warning_private_issue_public_bugnote' => plugin_config_get('warning_private_issue_public_bugnote')
 
             ]));
             echo '<script id="imaticIssueType" data-data="' . $t_data . '" src="' . plugin_file('issue_checker.js') . '&v=' . $this->version . '"></script>
