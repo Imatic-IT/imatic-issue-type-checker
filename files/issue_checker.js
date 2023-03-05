@@ -29,6 +29,7 @@ window.onload = function () {
     switch (settings.issue_view_state) {
       case 10:
         bugForm.submit();
+        showLoader()
         break;
       case 50:
         bugnoteConfirm(
@@ -38,6 +39,7 @@ window.onload = function () {
         break;
       default:
         bugForm.submit();
+        showLoader()
         break;
     }
   });
@@ -55,9 +57,11 @@ window.onload = function () {
             );
           } else {
             bugForm.submit();
+            showLoader()
           }
         } else {
           bugForm.submit();
+          showLoader()
         }
         break;
       case 50:
@@ -69,13 +73,16 @@ window.onload = function () {
             );
           } else {
             bugForm.submit();
+            showLoader()
           }
         } else {
           bugForm.submit();
+          showLoader()
         }
         break;
       default:
         bugForm.submit();
+        showLoader()
         break;
     }
   });
@@ -84,7 +91,6 @@ window.onload = function () {
 
   function setIssuePublic(callback) {
     let url = getUrl();
-    loader.style.display = "block";
 
     fetch(url, {
       method: "POST",
@@ -98,6 +104,10 @@ window.onload = function () {
     if (response.affected_row) {
       loader.style.display = "none";
     }
+  }
+
+  function showLoader() {
+    loader.style.display = "block";
   }
 
   function getUrl() {
@@ -134,12 +144,14 @@ window.onload = function () {
         const clickedButtonValue = e.target.value;
         setIssuePublic();
         bugForm.submit();
+        showLoader()
       });
     }
 
     sendBugnote.addEventListener("click", function (e) {
       const clickedButtonValue = e.target.value;
       bugForm.submit();
+      showLoader()
     });
   }
 
