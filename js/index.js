@@ -29,7 +29,7 @@ window.onload = function () {
     switch (settings.issue_view_state) {
       case 10:
         bugForm.submit();
-        showLoader()
+        showLoader();
         break;
       case 50:
         bugnoteConfirm(
@@ -39,7 +39,7 @@ window.onload = function () {
         break;
       default:
         bugForm.submit();
-        showLoader()
+        showLoader();
         break;
     }
   });
@@ -57,11 +57,11 @@ window.onload = function () {
             );
           } else {
             bugForm.submit();
-            showLoader()
+            showLoader();
           }
         } else {
           bugForm.submit();
-          showLoader()
+          showLoader();
         }
         break;
       case 50:
@@ -73,37 +73,37 @@ window.onload = function () {
             );
           } else {
             bugForm.submit();
-            showLoader()
+            showLoader();
           }
         } else {
           bugForm.submit();
-          showLoader()
+          showLoader();
         }
         break;
       default:
         bugForm.submit();
-        showLoader()
+        showLoader();
         break;
     }
   });
 
   addButton.insertAdjacentElement("afterend", addPublicButton);
 
-  function setIssuePublic(callback) {
-    let url = getUrl();
-
-    fetch(url, {
-      method: "POST",
-    })
-      .then((response) => response.json())
-      .then((data) => callback(data))
-      .catch((error) => console.error(error));
-  }
-
-  function callback(response) {
-    if (response.affected_row) {
-      loader.style.display = "none";
-    }
+  function setIssuePublic() {
+    $.ajax({
+      url: getUrl(),
+      type: "POST",
+      dataType: "json",
+      success: function (data) {
+        if (data.affected_row) {
+          loader.style.display = "none";
+          bugForm.submit();
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error(error);
+      },
+    });
   }
 
   function showLoader() {
@@ -143,15 +143,14 @@ window.onload = function () {
       publicIssueSendBugnote.addEventListener("click", function (e) {
         const clickedButtonValue = e.target.value;
         setIssuePublic();
-        bugForm.submit();
-        showLoader()
+        showLoader();
       });
     }
 
     sendBugnote.addEventListener("click", function (e) {
       const clickedButtonValue = e.target.value;
       bugForm.submit();
-      showLoader()
+      showLoader();
     });
   }
 
