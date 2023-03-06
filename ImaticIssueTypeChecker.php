@@ -25,11 +25,9 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
             ],
             'warning_public_issue_private_bugnote' => [
                 'allow' => true,
-                'message' => 'Issue je verejný chcete pridat súkromou poznámku ?'
             ],
             'warning_private_issue_public_bugnote' => [
                 'allow' => true,
-                'message' => 'Issue je soukromé chcete pridat verejnou poznámku ? Poznámkú nikto neuvidí'
             ]
         ];
     }
@@ -54,7 +52,7 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
 
             include 'inc/confirm_modal.php';
 
-            echo '<button class="btn btn-primary btn-white btn-round"  id="add_public_bugnote" type="submit">Pridať verejnú poznámku</button>';
+            echo '<button class="btn btn-primary btn-white btn-round"  id="add_public_bugnote" type="submit">'.lang_get('plugin_add_public_bugnote_button').'</button>';
 
             if (plugin_config_get('show_issue_status')) {
                 $this->imaticShowViewStateIssueMessage($issue);
@@ -101,12 +99,18 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
             $allow_set_public_issue = plugin_config_get('allow_set_public_issue');
             $allow_set_public_issue['change_status_access'] = $this->ImaticChangeStatusAccess();
 
+            $warning_public_issue_private_bugnote =  plugin_config_get('warning_public_issue_private_bugnote');
+            $warning_public_issue_private_bugnote['message'] =  lang_get('plugin_public_issue_private_note'); // Lang message
+
+            $warning_private_issue_public_bugnote = plugin_config_get('warning_private_issue_public_bugnote');
+            $warning_private_issue_public_bugnote['message'] = lang_get('plugin_private_issue_public_note'); // Lang message
+
             $t_data = htmlspecialchars(json_encode([
                 'issue_view_state' => $issue['view_state'],
                 'set_issue_public_url' => plugin_page('set_issue_public') . '&issue_id=' . $issue_id,
                 'allow_set_public_issue' => $allow_set_public_issue,
-                'warning_public_issue_private_bugnote' => plugin_config_get('warning_public_issue_private_bugnote'),
-                'warning_private_issue_public_bugnote' => plugin_config_get('warning_private_issue_public_bugnote')
+                'warning_public_issue_private_bugnote' => $warning_public_issue_private_bugnote,
+                'warning_private_issue_public_bugnote' => $warning_private_issue_public_bugnote
 
             ]));
             echo '<script id="imaticIssueType" data-data="' . $t_data . '" src="' . plugin_file('issue_checker.js') . '&v=' . $this->version . '"></script>
