@@ -113,7 +113,7 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
                 'warning_private_issue_public_bugnote' => $warning_private_issue_public_bugnote
 
             ]));
-            echo '<script id="imaticIssueType" data-data="' . $t_data . '" src="' . plugin_file('issue_checker.js') . '&v=' . $this->version . '"></script>
+            echo '<script id="imaticIssueType" data-data="' . $t_data . '" src="' . plugin_file('issue-checker.js') . '&v=' . $this->version . '"></script>
             <link rel="stylesheet" type="text/css" href="' . plugin_file('style.css') . '&v=' . $this->version . '" />';
         }
     }
