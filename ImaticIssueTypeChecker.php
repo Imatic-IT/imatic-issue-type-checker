@@ -64,10 +64,10 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
     public function  imaticShowViewStateIssueMessage($issue)
     {
 
-        $view_state_issue =  ucfirst($issue['view_state'] == 50 ? lang_get('private') : lang_get('public'));
+        $view_state_issue =  ucfirst($issue['view_state'] == 50 ? lang_get('plugin_private_issue') : lang_get('plugin_public_issue'));
         $class = $issue['view_state'] == 50 ? 'bg-warning' : 'bg-success';
 
-        echo '<p style="margin: 5px;padding: 5px;" class=" ' . $class . '">' . $view_state_issue . ' issue</p>';
+        echo '<p style="margin: 5px;padding: 5px;" class=" ' . $class . '">' . $view_state_issue . '</p>';
     }
 
     public function ImaticChangeStatusAccess()

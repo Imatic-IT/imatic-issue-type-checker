@@ -1,9 +1,9 @@
 <?php
 
-$s_plugin_modal_issue_to_public_button = 'Nastavit verejný issue a uverejnit poznámku';
-$s_plugin_modal_add_bugnote_button = 'Uverejnit Poznámku';
-$s_plugin_private_issue_public_note = 'Issue je soukromé chcete pridat verejnou poznámku ? Poznámku nikto neuvidí.';
-$s_plugin_public_issue_private_note = 'Issue je verejný chcete pridat súkromou poznámku ?';
-$s_plugin_add_public_bugnote_button = 'Pridat Verejnú Poznámku';
-
-
+$s_plugin_modal_issue_to_public_button = 'Nastavit veřejný problém a uveřejnit poznámku';
+$s_plugin_modal_add_bugnote_button = 'Uveřejnit Poznámku';
+$s_plugin_private_issue_public_note = 'Problém je soukromý chcete přidat veřejnou poznámku ? Poznámku nikto neuvidí.';
+$s_plugin_public_issue_private_note = 'Problém je veřejný chcete přidat súkromou poznámku ?';
+$s_plugin_add_public_bugnote_button = 'Přidat Veřejnú Poznámku';
+$s_plugin_public_issue = 'Veřejný Problém';
+$s_plugin_private_issue = 'Soukromý Problém';
