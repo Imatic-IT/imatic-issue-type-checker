@@ -1,3 +1,4 @@
+"use strict";
 window.onload = function () {
   function getSettings() {
     const el = document.querySelector("#imaticIssueType");
@@ -18,7 +19,10 @@ window.onload = function () {
   const loader = document.getElementById("loader");
   const confirmBugnote = document.getElementById("confirm_bugnote");
 
-  bugnoteConfirm(true);
+
+  setPublicIssueButtonAccess()
+
+  sendBugnoteModal();
 
   addPublicButton.addEventListener("click", function (e) {
     checkBoxViewStatus.checked = false;
@@ -87,7 +91,7 @@ window.onload = function () {
       success: function (data) {
         if (data.affected_row) {
           loader.style.display = "none";
-          AddNoteClick()
+          AddNoteClick();
         }
       },
       error: function (xhr, status, error) {
@@ -106,24 +110,11 @@ window.onload = function () {
   }
 
   function bugnoteConfirm(access_buttons = false, msg = null) {
-    const closeButton = document.getElementById("close_bugnote_congirm_modal");
     const publicIssueSendBugnote = document.getElementById(
       "public_issue_send_bugnote"
     );
-    const sendBugnote = document.getElementById("send_bugnote");
 
-    closeButton.addEventListener("click", function () {
-      closeModal();
-    });
-
-    if (access_buttons) {
-      if (publicIssueSendBugnote) {
-        setPublicIssueButtonAccess(publicIssueSendBugnote);
-      }
-    }
-
-    if (access_buttons) return;
-
+    closeModal()
     showModal();
 
     const modalBody = document.getElementById("bugnote_modal_confirm_message");
@@ -136,23 +127,25 @@ window.onload = function () {
         showLoader();
       });
     }
-
-    sendBugnote.addEventListener("click", function (e) {
-      AddNoteClick()
-      showLoader();
-    });
   }
 
   // Remove set public button if user do not have permision to  change status or it is turn off
-  function setPublicIssueButtonAccess(btn) {
+  function setPublicIssueButtonAccess() {
+
+    const publicIssueSendBugnote = document.getElementById(
+      "public_issue_send_bugnote"
+    );
+
+    if (!publicIssueSendBugnote)return ;
+
     if (!settings.allow_set_public_issue.allow) {
-      btn.remove();
+      publicIssueSendBugnote.remove();
     }
     if (!settings.allow_set_public_issue.change_status_access) {
-      btn.remove();
+      publicIssueSendBugnote.remove();
     }
     if (settings.issue_view_state == 10) {
-      btn.remove();
+      publicIssueSendBugnote.remove();
     }
   }
 
@@ -162,8 +155,22 @@ window.onload = function () {
   }
 
   function closeModal() {
-    confirmBugnote.classList.remove("show");
-    confirmBugnote.classList.add("fade");
+    const closeButton = document.getElementById("close_bugnote_congirm_modal");
+    closeButton.addEventListener("click", function () {
+      confirmBugnote.classList.remove("show");
+      confirmBugnote.classList.add("fade");
+    });
+  }
+
+  //Listener on modal send issue
+  function sendBugnoteModal(){
+    const sendBugnote = document.getElementById("send_bugnote");
+
+    sendBugnote.addEventListener("click", function (e) {
+      AddNoteClick()
+      showLoader();
+    });
+
   }
 
   function AddNoteClick() {
