@@ -22,23 +22,17 @@ window.onload = function () {
 
   addPublicButton.addEventListener("click", function (e) {
     checkBoxViewStatus.checked = false;
-    e.preventDefault();
-
     butnoteTextArea.classList.remove("bugnote-private");
 
     switch (settings.issue_view_state) {
-      case 10:
-        bugForm.submit();
-        showLoader();
-        break;
       case 50:
+        e.preventDefault();
         bugnoteConfirm(
           false,
           settings.warning_private_issue_public_bugnote.message
         );
         break;
       default:
-        bugForm.submit();
         showLoader();
         break;
     }
@@ -46,42 +40,38 @@ window.onload = function () {
 
   // Left button, default mantis add bugnote button
   addButton.addEventListener("click", function (e) {
-    e.preventDefault();
     switch (settings.issue_view_state) {
       case 10:
         if (checkBoxViewStatus.checked) {
           if (settings.warning_public_issue_private_bugnote.allow) {
+            e.preventDefault();
             bugnoteConfirm(
               false,
               settings.warning_public_issue_private_bugnote.message
             );
           } else {
-            bugForm.submit();
             showLoader();
           }
         } else {
-          bugForm.submit();
           showLoader();
         }
         break;
       case 50:
         if (!checkBoxViewStatus.checked) {
           if (settings.warning_private_issue_public_bugnote.allow) {
+            e.preventDefault();
             bugnoteConfirm(
               false,
               settings.warning_private_issue_public_bugnote.message
             );
           } else {
-            bugForm.submit();
             showLoader();
           }
         } else {
-          bugForm.submit();
           showLoader();
         }
         break;
       default:
-        bugForm.submit();
         showLoader();
         break;
     }
@@ -97,7 +87,7 @@ window.onload = function () {
       success: function (data) {
         if (data.affected_row) {
           loader.style.display = "none";
-          bugForm.submit();
+          AddNoteClick()
         }
       },
       error: function (xhr, status, error) {
@@ -148,8 +138,7 @@ window.onload = function () {
     }
 
     sendBugnote.addEventListener("click", function (e) {
-      const clickedButtonValue = e.target.value;
-      bugForm.submit();
+      AddNoteClick()
       showLoader();
     });
   }
@@ -175,5 +164,9 @@ window.onload = function () {
   function closeModal() {
     confirmBugnote.classList.remove("show");
     confirmBugnote.classList.add("fade");
+  }
+
+  function AddNoteClick() {
+    addButton.dispatchEvent(new MouseEvent("click"));
   }
 };

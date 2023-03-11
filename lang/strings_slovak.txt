@@ -2,7 +2,7 @@
 
 $s_plugin_modal_issue_to_public_button = 'Nastaviť verejný issue a uverejniť poznámku';
 $s_plugin_modal_add_bugnote_button = 'Napriek tomu pridať';
-$s_plugin_private_issue_public_note = 'Problém je soukromný chcete pridať verejnú poznámku ? Poznámku nikto neuvidí.';
+$s_plugin_private_issue_public_note = 'Problém je súkromný chcete pridať verejnú poznámku ? Poznámku nikto neuvidí.';
 $s_plugin_public_issue_private_note = 'Problém je verejný chcete pridať súkromou poznámku ?';
 $s_plugin_add_public_bugnote_button = 'Pridať Verejnú Poznámku';
 $s_plugin_public_issue = 'Verejný Problém';
