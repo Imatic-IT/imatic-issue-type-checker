@@ -19,10 +19,9 @@ window.onload = function () {
   const loader = document.getElementById("loader");
   const confirmBugnote = document.getElementById("confirm_bugnote");
 
-
   setPublicIssueButtonAccess()
-
   sendBugnoteModal();
+  setIssuePublic()
 
   addPublicButton.addEventListener("click", function (e) {
     checkBoxViewStatus.checked = false;
@@ -32,7 +31,6 @@ window.onload = function () {
       case 50:
         e.preventDefault();
         bugnoteConfirm(
-          false,
           settings.warning_private_issue_public_bugnote.message
         );
         break;
@@ -50,7 +48,7 @@ window.onload = function () {
           if (settings.warning_public_issue_private_bugnote.allow) {
             e.preventDefault();
             bugnoteConfirm(
-              false,
+
               settings.warning_public_issue_private_bugnote.message
             );
           } else {
@@ -65,7 +63,7 @@ window.onload = function () {
           if (settings.warning_private_issue_public_bugnote.allow) {
             e.preventDefault();
             bugnoteConfirm(
-              false,
+
               settings.warning_private_issue_public_bugnote.message
             );
           } else {
@@ -84,20 +82,30 @@ window.onload = function () {
   addButton.insertAdjacentElement("afterend", addPublicButton);
 
   function setIssuePublic() {
-    $.ajax({
-      url: getUrl(),
-      type: "POST",
-      dataType: "json",
-      success: function (data) {
-        if (data.affected_row) {
-          loader.style.display = "none";
-          AddNoteClick();
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error(error);
-      },
-    });
+
+    const publicIssueSendBugnote = document.getElementById(
+      "public_issue_send_bugnote"
+    );
+
+    if (publicIssueSendBugnote) {
+      publicIssueSendBugnote.addEventListener("click", function (e) {
+        $.ajax({
+          url: getUrl(),
+          type: "POST",
+          dataType: "json",
+          success: function (data) {
+            if (data.affected_row) {
+              loader.style.display = "none";
+              AddNoteClick();
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error(error);
+          },
+        });
+        showLoader();
+      });
+    }
   }
 
   function showLoader() {
@@ -109,7 +117,7 @@ window.onload = function () {
     return url;
   }
 
-  function bugnoteConfirm(access_buttons = false, msg = null) {
+  function bugnoteConfirm(msg) {
     const publicIssueSendBugnote = document.getElementById(
       "public_issue_send_bugnote"
     );
@@ -119,14 +127,6 @@ window.onload = function () {
 
     const modalBody = document.getElementById("bugnote_modal_confirm_message");
     modalBody.textContent = msg;
-
-    if (publicIssueSendBugnote) {
-      publicIssueSendBugnote.addEventListener("click", function (e) {
-        const clickedButtonValue = e.target.value;
-        setIssuePublic();
-        showLoader();
-      });
-    }
   }
 
   // Remove set public button if user do not have permision to  change status or it is turn off
