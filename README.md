@@ -50,6 +50,8 @@ Warns while adding notes, depends on view state
 
 - `message` (string): The warning message to display.
 
+- `submit_confirm_shortcut => send_bugnote` (string): Shortcut for send bugnote confirm modal (send as default button).
+
 ### Config code
 
 ```php
@@ -62,11 +64,12 @@ Warns while adding notes, depends on view state
             ],
             'warning_public_issue_private_bugnote' => [
                 'allow' => true,
-                'message' => 'Issue is public do you want to add private note ? '
             ],
             'warning_private_issue_public_bugnote' => [
                 'allow' => true,
-                'message' => 'Do you want to add a public note to a private issue? Nobody will see the note.'
+            ],
+            'submit_confirm_shortcut' => [
+                'send_bugnote' => 'Enter'
             ]
         ];
     }

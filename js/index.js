@@ -152,14 +152,29 @@ window.onload = function () {
   function showModal() {
     confirmBugnote.classList.add("show");
     confirmBugnote.classList.remove("fade");
+    document.addEventListener("keydown", confirmBugnoteKeyDownHandler);
   }
 
-  function closeModal() {
-    const closeButton = document.getElementById("close_bugnote_congirm_modal");
-    closeButton.addEventListener("click", function () {
-      confirmBugnote.classList.remove("show");
-      confirmBugnote.classList.add("fade");
-    });
+    function closeModal() {
+        const closeButton = document.getElementById("close_bugnote_congirm_modal");
+        closeButton.addEventListener("click", function () {
+            hideModal();
+        });
+    }
+
+    function hideModal() {
+        confirmBugnote.classList.remove("show");
+        confirmBugnote.classList.add("fade");
+        document.removeEventListener("keydown", confirmBugnoteKeyDownHandler);
+    }
+
+  function confirmBugnoteKeyDownHandler(e) {
+    let key = e.code;
+    if (key === settings.submit_confirm_shortcut.send_bugnote) {
+      e.preventDefault();
+      const sendBugnote = document.getElementById("send_bugnote");
+      sendBugnote.click()
+    }
   }
 
   //Listener on modal send issue
@@ -170,7 +185,6 @@ window.onload = function () {
       AddNoteClick()
       showLoader();
     });
-
   }
 
   function AddNoteClick() {
