@@ -6,7 +6,7 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
     {
         $this->name = 'Imatic issue checker';
         $this->description = 'Warning when private issue has public note && added button send public note';
-        $this->version = '0.0.4';
+        $this->version = '0.0.5';
         $this->requires = [
             'MantisCore' => '2.0.0',
         ];
@@ -30,7 +30,7 @@ class ImaticIssueTypeCheckerPlugin extends MantisPlugin
                 'allow' => true,
             ],
             'submit_confirm_shortcut' => [
-                'send_bugnote' => 'Enter'
+                'send_bugnote' => ['Enter', 'NumpadEnter']
             ]
         ];
     }

@@ -7,5 +7,4 @@ $s_plugin_public_issue_private_note = 'Problém je verejný chcete pridať súkr
 $s_plugin_add_public_bugnote_button = 'Pridať Verejnú Poznámku';
 $s_plugin_public_issue = 'Verejný Problém';
 $s_plugin_private_issue = 'Súkromný Problém';
-
-
+$s_plugin_really_add_bugnote_tooltip = 'Odoslať stlačením týchto kláves: ';

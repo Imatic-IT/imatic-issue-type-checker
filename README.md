@@ -50,7 +50,7 @@ Warns while adding notes, depends on view state
 
 - `message` (string): The warning message to display.
 
-- `submit_confirm_shortcut => send_bugnote` (string): Shortcut for send bugnote confirm modal (send as default button).
+- `submit_confirm_shortcut => send_bugnote` (array): Shortcut for send bugnote confirm modal (send as default button).
 
 ### Config code
 
@@ -69,7 +69,7 @@ Warns while adding notes, depends on view state
                 'allow' => true,
             ],
             'submit_confirm_shortcut' => [
-                'send_bugnote' => 'Enter'
+                'send_bugnote' => ['Enter', 'NumpadEnter']
             ]
         ];
     }

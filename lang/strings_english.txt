@@ -7,4 +7,5 @@ $s_plugin_public_issue_private_note = 'Issue is public. Do you want to add priva
 $s_plugin_add_public_bugnote_button = 'Add Public Note';
 $s_plugin_public_issue = 'Public Issue';
 $s_plugin_private_issue = 'Private Issue';
+$s_plugin_really_add_bugnote_tooltip = 'Send by pressing these keys: ';
 

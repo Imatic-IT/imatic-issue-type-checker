@@ -170,11 +170,15 @@ window.onload = function () {
 
   function confirmBugnoteKeyDownHandler(e) {
     let key = e.code;
-    if (key === settings.submit_confirm_shortcut.send_bugnote) {
-      e.preventDefault();
-      const sendBugnote = document.getElementById("send_bugnote");
-      sendBugnote.click()
-    }
+
+      settings.submit_confirm_shortcut.send_bugnote.forEach(function(bugnote){
+
+        if (key === bugnote) {
+          e.preventDefault();
+          const sendBugnote = document.getElementById("send_bugnote");
+          sendBugnote.click()
+        }
+      });
   }
 
   //Listener on modal send issue

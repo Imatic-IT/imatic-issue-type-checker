@@ -6,15 +6,25 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button id="public_issue_send_bugnote" type="button" class="btn btn-warning btn-sm confirm_bugnote" value="public-issue" data-dismiss="modal">
+                <button id="public_issue_send_bugnote" type="button" class="btn btn-warning btn-sm confirm_bugnote " value="public-issue" data-dismiss="modal">
                     <?php echo lang_get('plugin_modal_issue_to_public_button'); ?>
                 </button>
-                <button id="send_bugnote" type="button" class="btn btn-primary btn-sm confirm_bugnote" value="send-bugnote" data-dismiss="modal">
-                    <?php echo lang_get('plugin_modal_add_bugnote_button'); ?>
-                </button><br><br>
+                <div class="imatic-checker-tooltip">
+                     <button id="send_bugnote" type="button" class="btn btn-primary btn-sm confirm_bugnote" value="send-bugnote" data-dismiss="modal">
+                         <?php echo lang_get('plugin_modal_add_bugnote_button'); ?>
+                     </button>
+                     <span class="imatic-checker-tooltip-text"><?php echo lang_get('plugin_really_add_bugnote_tooltip');
+                     $buttons = plugin_config_get('submit_confirm_shortcut')['send_bugnote'];
+                     foreach ($buttons as $btn){
+                         echo $btn. ', ' ;
+                     }
+                     ?></span>
+                </div>
+                <br><br>
                 <button id="close_bugnote_congirm_modal" type="button" class="btn btn-danger btn-xs m-2" data-dismiss="modal">
                     <i class="fa fa-close" style="font-size:26px"></i>
                 </button>
+
             </div>
         </div>
     </div>
